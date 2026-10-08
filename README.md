@@ -1,33 +1,42 @@
 # Lattice Dynamics Lab
 
-An interactive, deterministic simulation of a complex field on a 2D grid.
-Each cell holds a complex number and a symmetric 2x2 matrix. Local coupling,
-seeded matrix perturbations, and global normalization update the field.
-An optional phase flip changes the sign of values above a relative-power threshold.
+**Explore how simple rules create changing patterns, and investigate what makes those patterns change.**
+
+Lattice Dynamics Lab is an interactive simulation that runs in your browser. It gives you a grid of connected cells, a set of adjustable rules, and tools for watching what happens as the system evolves. You can pause, inspect individual cells, repeat a run, and compare the results after changing a setting. *Lattice* means the grid; *dynamics* describes how it changes over time.
+
+## What am I looking at?
+
+Each cell holds a mathematical value that can be pictured as a small arrow. Its length represents magnitude, and its angle represents phase. These arrows describe numerical relationships, not objects moving across the screen.
+
+As the simulation advances, neighboring values influence one another. Each cell also has a small table of numbers, called a matrix, that affects how its value is scaled. These matrices receive repeatable variations, and the entire field is rescaled after each update to maintain a consistent overall numerical magnitude. Together, these rules produce the changing pattern.
+
+The colors, lines, and ellipses provide different views of that calculation. Hover over a cell to inspect its numbers, or switch views to focus on a particular part of the system. The display automatically adjusts its visual scale, so the inspector and exported measurements are the tools for precise comparisons.
+
+## Why is it interesting?
+
+An animation shows you that something changed. The lab gives you a way to investigate **which rule caused the change**.
+
+You can keep the starting setup fixed, repeat the experiment in the same software environment, and then alter one feature. That makes it possible to separate the effect of a rule from the effect of starting with a different arrangement.
+
+For example, the **Phase-flip gate** turns selected arrows halfway around without changing their lengths at that instant. Their magnitudes stay the same, but their relationships with neighboring arrows change. Later updates can therefore produce a different pattern. It is a concrete example of how the relationship between values can matter as much as their individual sizes.
+
+## Try a small experiment
+
+1. Select **Load reference defaults**, then **Check run · 32 ticks**.
+2. Inspect the pattern and export the measurements as a CSV file.
+3. Enable **Phase-flip gate** and repeat the check, keeping the seed and other settings unchanged.
+
+Compare the pictures and measurements. What changed when you introduced that one rule?
+
+## What does the lab demonstrate?
+
+The lab provides a visible, inspectable environment for learning about numerical simulations and designing controlled experiments. Its checks examine specific software properties, including repeatability and whether certain operations preserve the quantities they should.
+
+Those checks do not establish an advantage in prediction, learning, or other practical tasks. The simulation has also not been calibrated against physical measurements. Its current purpose is to help you explore a system, test its behavior, and build experiments whose results can be examined rather than judged by appearance alone.
 
 [Open the live demo](https://donaldtuttle.github.io/lattice-dynamics-lab-/)
 
 ![Live reference run with all six checks passing](docs/live-verification.jpg)
-
-## Why care?
-
-An animated pattern can hide which rule caused a change. This lab lets you
-inspect the state, switch an intervention on or off, replay the same inputs,
-and export the numbers behind the picture. It is a small numerical sandbox
-for learning, debugging, and designing controlled experiments.
-
-## Try this
-
-1. Select **Load reference defaults**, then **Check run · 32 ticks**.
-2. Inspect the P1-P6 checks, hover a cell, and switch between the field,
-   matrix, relative-power, and coupling views.
-3. Export the CSV. Enable **Phase-flip gate** and run the same check again.
-   Compare `phaseFlipApplied` and `neighborResidualNorm`.
-
-The gate preserves each cell's power at the instant it flips. Later updates
-can diverge because neighboring complex values now have different relative phases.
-Changing a coupling while playing changes the experiment; reset and use fixed
-settings for controlled comparisons.
 
 ## Run locally
 
