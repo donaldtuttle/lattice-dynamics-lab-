@@ -5,7 +5,7 @@ Migration prepared on 2026-10-08 from source commit
 
 ## Executed locally
 
-Runtime: Linux, Node.js 24.19.0, Python 3.12, NumPy 2.2.6 from the unchanged
+Runtime: Linux, Node.js 24.19.0, Python 3.12.14, NumPy 2.2.6 from the unchanged
 `requirements-ci.txt` pin. Dependencies were installed from the npm lockfile.
 
 | Check | Result |
@@ -54,6 +54,19 @@ GitHub Pages must be configured to use GitHub Actions before deployment can fini
 
 ## Repeat
 
+The Python migration check runs the immutable original and migrated implementation
+in the same process. Fetch the original once (the application itself has no
+runtime dependency on this checkout):
+
+```bash
+git clone https://github.com/donaldtuttle/qoft-lab.git ../qoft-lab-source
+git -C ../qoft-lab-source checkout 57459dcf2203ff1bbd3ad53eb89d0941c95901c6
+```
+
+For an existing checkout elsewhere, set `LATTICE_SOURCE_ROOT` to its directory.
+The test rejects an original source file whose SHA-256 differs from the recorded
+fingerprint. GitHub Actions fetches the pinned commit into `.reference-source`.
+
 ```bash
 npm ci
 npm run check
@@ -61,6 +74,23 @@ pip install -r requirements-ci.txt
 python -m unittest discover -s tests -v
 python public/lattice_reference.py --check-deterministic --out telemetry_seed7.csv
 ```
+
+## Python portability correction during publishing
+
+[The first standalone CI run](https://github.com/donaldtuttle/lattice-dynamics-lab-/actions/runs/37838902851)
+passed the TypeScript suite, source fixture integrity, terminology scan, build,
+and Python deterministic replay. Its Python telemetry snapshot comparison failed
+in all 16 scenarios on Python 3.12.15 and NumPy 2.2.6. The local preparation runtime
+used Python 3.12.14 and NumPy 2.2.6. Pinning NumPy alone did not make the recorded
+floating point hashes portable to that runner.
+
+The corrected gate compares every migrated telemetry row with the SHA-256 pinned
+original running on the same machine, using exact JSON equality without numerical
+tolerances. It separately counts original-source rows that differ from the saved
+snapshot. The original fixtures, their hashes, and the simulation arithmetic are
+unchanged. This checks migration correctness without assuming identical floating
+point results across different runtime builds. Current CI results establish
+whether that comparison passes on the GitHub runner.
 
 This establishes implementation parity on the tested inputs and runtimes. It does
 not establish universal platform bit identity, external task performance, or a

@@ -7,3 +7,4 @@ dist
 __pycache__/
 *.pyc
 telemetry_seed*.csv
+.reference-source/

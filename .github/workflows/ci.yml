@@ -15,6 +15,7 @@ jobs:
       VITE_BASE_PATH: /${{ github.event.repository.name }}/
       VITE_REPOSITORY: ${{ github.repository }}
       VITE_GIT_SHA: ${{ github.sha }}
+      LATTICE_SOURCE_ROOT: ${{ github.workspace }}/.reference-source
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -32,6 +33,13 @@ jobs:
           python-version: "3.12"
       - run: pip install -r requirements-ci.txt
       - run: python public/lattice_reference.py --check-deterministic --out /tmp/telemetry.csv
+      - name: Check out immutable Python comparison source
+        uses: actions/checkout@v4
+        with:
+          repository: donaldtuttle/qoft-lab
+          ref: 57459dcf2203ff1bbd3ad53eb89d0941c95901c6
+          path: .reference-source
+          persist-credentials: false
       - run: python -m unittest discover -s tests -v
       - name: Record deployment source
         run: |

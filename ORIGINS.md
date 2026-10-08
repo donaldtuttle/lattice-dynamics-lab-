@@ -54,6 +54,14 @@ power, determinants, row coordinates, column coordinates, then tick and the four
 RNG words. Python fixture hashes cover sorted compact JSON telemetry rows under
 NumPy 2.2.6. Python full internal state is not covered by this fixture.
 
+The saved Python hashes record the preparation environment, including its floating
+point behavior. CI checks Python migration parity by running the SHA-256 verified
+original and migrated implementations in the same runtime and comparing every
+serialized telemetry row exactly. It reports original-source differences from the
+historical hashes separately. The recorded fixture is not rewritten to match a
+new machine. See [VALIDATION.md](docs/VALIDATION.md) for the publishing failure
+that exposed this portability limit.
+
 Regeneration is a maintenance action, not part of ordinary testing:
 
 ```bash

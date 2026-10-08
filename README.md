@@ -46,6 +46,8 @@ python public/lattice_reference.py --phase-flip on --check-deterministic
 The browser engine uses sfc32. The Python reference uses NumPy PCG64.
 Each replays within its own runtime; equal seeds do not imply equal trajectories
 between these two implementations.
+Python migration tests also require the pinned original checkout described in
+[the validation instructions](docs/VALIDATION.md#repeat). CI fetches it automatically.
 
 ## What is verified?
 
