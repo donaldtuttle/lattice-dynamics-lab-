@@ -38,9 +38,15 @@ The patch keeps the original layout and drawing operations. Configuration change
 now clear a stale check result, fresh check runs clear stale cell samples, and the
 disabled-gate check is marked N/A when the gate is enabled.
 
-Interactive browser testing and screenshot review were attempted but could not
-run in this environment: no Chromium executable was installed, and its download
-returned an invalid archive. No claim of completed visual or interaction QA is made.
+Initial local browser testing could not run because no Chromium executable was
+installed and its download returned an invalid archive. After publishing, the
+live application was checked in Chrome on 2026-10-08: the page loaded, reference
+defaults selected grid 8 and seed 7, and the 32-tick run passed all six checks.
+The canvas rendered, telemetry populated, and the CSV control became enabled.
+The Model panel showed version 0.2.0, schema 2, and the expected source commit
+`cf762f4f4f9980ac3575c1b56ead8eb0d3c2674f`. The
+[captured reference run](live-verification.jpg) records that check. This was a
+desktop smoke test; mobile layout and the remaining interactions were not audited.
 
 The production build emits Vite's existing large-bundle advisory (about 800 kB
 before gzip). Dependency upgrades and bundle splitting are outside this migration.
@@ -50,7 +56,10 @@ Its workflow derives asset paths and source links from that repository name,
 including the trailing hyphen. Publishing this repository does not deploy or
 replace the original application's main branch. Read current verification and
 deployment status from [GitHub Actions](https://github.com/donaldtuttle/lattice-dynamics-lab-/actions).
-GitHub Pages must be configured to use GitHub Actions before deployment can finish.
+GitHub Pages was enabled for GitHub Actions, and
+[deployment run 37840003297](https://github.com/donaldtuttle/lattice-dynamics-lab-/actions/runs/37840003297)
+completed successfully. The live application is available at
+https://donaldtuttle.github.io/lattice-dynamics-lab-/.
 
 ## Repeat
 
@@ -89,8 +98,11 @@ original running on the same machine, using exact JSON equality without numerica
 tolerances. It separately counts original-source rows that differ from the saved
 snapshot. The original fixtures, their hashes, and the simulation arithmetic are
 unchanged. This checks migration correctness without assuming identical floating
-point results across different runtime builds. Current CI results establish
-whether that comparison passes on the GitHub runner.
+point results across different runtime builds. The corrected verification job in
+[run 37839513556](https://github.com/donaldtuttle/lattice-dynamics-lab-/actions/runs/37839513556)
+passed all 1,792 exact comparisons. It reported 1,427 original-source rows that
+differed from the historical hashes, confirming that the snapshot mismatch also
+occurred in the unchanged original on that runner.
 
 This establishes implementation parity on the tested inputs and runtimes. It does
 not establish universal platform bit identity, external task performance, or a

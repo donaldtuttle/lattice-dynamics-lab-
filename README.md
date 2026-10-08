@@ -5,6 +5,10 @@ Each cell holds a complex number and a symmetric 2x2 matrix. Local coupling,
 seeded matrix perturbations, and global normalization update the field.
 An optional phase flip changes the sign of values above a relative-power threshold.
 
+[Open the live demo](https://donaldtuttle.github.io/lattice-dynamics-lab-/)
+
+![Live reference run with all six checks passing](docs/live-verification.jpg)
+
 ## Why care?
 
 An animated pattern can hide which rule caused a change. This lab lets you
