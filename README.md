@@ -86,9 +86,10 @@ and [the validation record](docs/VALIDATION.md) for executed checks.
 ## Hosting
 
 This is a standalone Vite application. `npm run build` writes `dist/`.
-The included GitHub Actions workflow checks the application before deploying
-`main` through GitHub Pages. Set the repository's **Settings > Pages > Source**
-to **GitHub Actions** before the first deployment. Pull requests only run checks.
+The repository uses GitHub Actions to verify changes and deploy successful builds
+from `main` to GitHub Pages. Pull requests only run checks.
+For an independent deployment from a fork, select **GitHub Actions** under the
+fork's **Settings > Pages > Source**.
 
 The Pages asset prefix is derived from the repository name. A production build
 records its source commit, repository, application version, and telemetry schema
